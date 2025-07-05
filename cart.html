@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart - Homemade Pickles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff8f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #b34700;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #ffe0cc;
+        }
+        img {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+        }
+        .remove-btn, .checkout-btn {
+            background-color: #cc4400;
+            color: white;
+            padding: 8px 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        .remove-btn:hover, .checkout-btn:hover {
+            background-color: #a33400;
+        }
+        .total {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .checkout-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .empty {
+            text-align: center;
+            margin-top: 50px;
+            color: #777;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Cart</h1>
+
+        {% if cart and cart|length > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Item</th>
+                        <th>Price (₹)</th>
+                        <th>Quantity</th>
+                        <th>Subtotal (₹)</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                    <tr>
+                        <td><img src="{{ item.image }}" alt="{{ item.item }}"></td>
+                        <td>{{ item.item }}</td>
+                        <td>{{ item.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.price * item.quantity }}</td>
+                        <td>
+                            <form action="{{ url_for('remove_from_cart') }}" method="post">
+                                <input type="hidden" name="index" value="{{ loop.index0 }}">
+                                <button class="remove-btn" type="submit">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="total">Total: ₹{{ total }}</div>
+
+            <div class="checkout-section">
+                <a href="{{ url_for('checkout') }}">
+                    <button class="checkout-btn">Proceed to Checkout</button>
+                </a>
+            </div>
+        {% else %}
+            <div class="empty">Your cart is empty. Go add some delicious pickles!</div>
+        {% endif %}
+    </div>
+</body>
+</html>

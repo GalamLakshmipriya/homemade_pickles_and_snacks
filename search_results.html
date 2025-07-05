@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homemade Pickles & Snacks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <style>
+        .flash {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #dff0d8;
+            color: #3c763d;
+            padding: 10px 18px;
+            border: 1px solid #3c763d;
+            border-radius: 6px;
+            z-index: 1000;
+            font-weight: bold;
+        }
+        .flash.info {
+            background-color: #d9edf7;
+            color: #31708f;
+            border-color: #31708f;
+        }
+        .flash.danger {
+            background-color: #f2dede;
+            color: #a94442;
+            border-color: #a94442;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div id="flash-message">
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    <script>
+      setTimeout(() => {
+        const flash = document.getElementById('flash-message');
+        if (flash) flash.style.display = 'none';
+      }, 3000);
+    </script>
+  {% endif %}
+{% endwith %}
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <ul>
+        <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="/cart"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+        <li>
+            <form action="{{ url_for('search') }}" method="get" style="display: flex; align-items: center;">
+                <input type="text" name="query" placeholder="🔍 Search..." required style="width: 100%; padding: 6px; border-radius: 5px;">
+            </form>
+        </li>
+
+        {% if session.get('user') %}
+            <li>
+                <div style="display: flex; align-items: center;">
+                    <i class="fas fa-user-circle"></i>
+                    <span style="margin-left: 8px;">{{ session['user']['full_name'] }}</span>
+                </div>
+            </li>
+            <li><a href="/profile"><i class="fas fa-user"></i> Profile</a></li>
+            <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        {% else %}
+            <li><a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            <li><a href="/signup"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+        {% endif %}
+
+        <li><a href="/about"><i class="fas fa-info-circle"></i> About Us</a></li>
+        <li><a href="/contactus"><i class="fas fa-envelope"></i> Contact Us</a></li>
+    </ul>
+</div>
+
+<header>
+    <h1 class="site-title">Homemade Pickles & Snacks</h1>
+</header>
+
+<main class="main-content">
+    <section class="categories">
+        <h2>Shop by Category</h2>
+        <div class="category-cards">
+            <a href="/veg_pickles">
+                <img src="{{ url_for('static', filename='images/mango.jpg') }}" alt="Veg Pickles">
+                <p>Veg Pickles</p>
+            </a>
+            <a href="/non_veg_pickles">
+                <img src="{{ url_for('static', filename='images/chicken.jpg') }}" alt="Non-Veg Pickles">
+                <p>Non-Veg Pickles</p>
+            </a>
+            <a href="/snacks">
+                <img src="{{ url_for('static', filename='images/snacks/mixture.jpg') }}" alt="Snacks">
+                <p>Snacks</p>
+            </a>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

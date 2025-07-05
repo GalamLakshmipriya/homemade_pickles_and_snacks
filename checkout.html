@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <style>
+        form {
+            width: 400px;
+            margin: auto;
+        }
+        label, input, textarea {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .flash {
+            text-align: center;
+            font-weight: bold;
+        }
+        .flash.success { color: green; }
+        .flash.warning { color: orange; }
+        .flash.danger { color: red; }
+        .flash.info { color: blue; }
+    </style>
+</head>
+<body>
+    <h2>Checkout</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <p class="flash {{ category }}">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label>Name:</label>
+        <input type="text" name="name" required>
+
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <label>Phone:</label>
+        <input type="tel" name="phone" required>
+
+        <label>Address:</label>
+        <textarea name="address" required></textarea>
+
+        <button type="submit">Place Order</button>
+    </form>
+</body>
+</html>

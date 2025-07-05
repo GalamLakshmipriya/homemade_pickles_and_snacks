@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <ul>
+        <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="/cart"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+        <li>
+            <form action="{{ url_for('search') }}" method="get">
+                <input type="text" name="query" placeholder="Search..." required>
+            </form>
+        </li>
+        {% if session.get('user_email') %}
+            <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        {% else %}
+            <li><a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            <li><a href="/signup"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+        {% endif %}
+        <li><a href="/about"><i class="fas fa-info-circle"></i> About Us</a></li>
+        <li><a href="/contactus"><i class="fas fa-envelope"></i> Contact Us</a></li>
+    </ul>
+</div>
+
+<header>
+    <h1 class="site-title">Homemade Pickles & Snacks</h1>
+</header>
+
+<div class="main-content">
+    <h1>Contact Us</h1>
+    <p><strong>We’d love to hear from you!</strong></p>
+    <p>If you have any questions, custom requests, or feedback, feel free to reach out to us through the following:</p>
+    <ul>
+        <li><strong>📞 Phone:</strong> +91 98765 43210</li>
+        <li><strong>📧 Email:</strong> support@homemadesnacks.in</li>
+        <li><strong>📍 Address:</strong> Guntur, Andhra Pradesh, India</li>
+    </ul>
+    <p>We're here to help you Monday to Saturday, 9 AM to 6 PM.</p>
+</div>
+
+</body>
+</html>
